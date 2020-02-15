@@ -80,6 +80,8 @@
 
     const db = firebase.firestore();
 
+    let sending = false;
+
     const submitForm = () => {
       const name = document.querySelector("#name").value;
       const allergies = document.querySelector("#allergies").value;
@@ -94,11 +96,27 @@
       document.getElementById("rsvpForm").reset();
     };
 
+    const showSending = () => {
+      const button = document.getElementById("submitButton");
+      button.innerText = "Skickar svar...";
+    };
+
+    const showSuccess = () => {
+      const form = document.getElementById("rsvpForm");
+      const name = document.querySelector("#name").value;
+      form.innerHTML = `<span style="text-align: center; font-size: 1.2rem;">Välkommen, ${name}!</span>`;
+    };
+
     // Attach event listeners
     document.getElementById("submitButton").addEventListener("click", async e => {
       e.preventDefault();
-      await submitForm();
-      resetForm();
+      if (!sending) {
+        sending = true;
+        showSending();
+        await submitForm();
+        showSuccess();
+        //resetForm();
+      }
     });
   </script>
 </body>
