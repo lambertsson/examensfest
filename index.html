@@ -1,0 +1,93 @@
+<head>
+  <meta charset="utf-8" />
+  <title>Examensfest</title>
+  <style>
+    body {
+      display: flex;
+      background-color: #2258a5;
+      font-family: "Open Sans", Arial, "Helvetica Neue", helvetica, sans-serif;
+    }
+    form {
+      margin: auto;
+      display: flex;
+      flex-direction: column;
+      min-width: 300px;
+      color: white;
+    }
+    form h1 {
+      margin-bottom: 0.2rem;
+    }
+    form h2 {
+      margin: 0 0 1.2rem;
+      font-size: 0.8rem;
+      font-style: italic;
+    }
+    form label {
+      margin-bottom: 0.2rem;
+    }
+    form input {
+      margin-bottom: 1.2rem;
+    }
+  </style>
+</head>
+<body>
+  <form action="" method="POST" id="rsvpForm">
+    <div style="display: flex;">
+      <div style="flex-grow: 1;">
+        <h1>Examensfest</h1>
+        <h2>För Klara och Christoffer</h2>
+      </div>
+      <img src="kth-logo.svg" />
+    </div>
+    <label>Ditt namn</label>
+    <input id="name" />
+    <label>Dina (eventuella) allergier</label>
+    <input id="allergies" />
+    <button id="submitButton">Jag kommer!</button>
+  </form>
+
+  <!-- The core Firebase JS SDK is always required and must be listed first -->
+  <script src="https://www.gstatic.com/firebasejs/7.8.1/firebase-app.js"></script>
+
+  <!-- TODO: Add SDKs for Firebase products that you want to use
+     https://firebase.google.com/docs/web/setup#available-libraries -->
+  <script src="https://www.gstatic.com/firebasejs/7.8.0/firebase-firestore.js"></script>
+
+  <script>
+    // Your web app's Firebase configuration
+    const firebaseConfig = {
+      apiKey: "AIzaSyBxDSfY6Tp49Mn1x-tDNt89Z2oDYzl3tkA",
+      authDomain: "examensfest-3b527.firebaseapp.com",
+      databaseURL: "https://examensfest-3b527.firebaseio.com",
+      projectId: "examensfest-3b527",
+      storageBucket: "examensfest-3b527.appspot.com",
+      messagingSenderId: "70421957529",
+      appId: "1:70421957529:web:05a1eb48336fe8b348a108"
+    };
+    // Initialize Firebase
+    firebase.initializeApp(firebaseConfig);
+
+    const db = firebase.firestore();
+
+    const submitForm = () => {
+      const name = document.querySelector("#name").value;
+      const allergies = document.querySelector("#allergies").value;
+
+      return db.collection("RSVPS").add({
+        name,
+        allergies
+      });
+    };
+
+    const resetForm = () => {
+      document.getElementById("rsvpForm").reset();
+    };
+
+    // Attach event listeners
+    document.getElementById("submitButton").addEventListener("click", async e => {
+      e.preventDefault();
+      await submitForm();
+      resetForm();
+    });
+  </script>
+</body>
